@@ -1,49 +1,48 @@
 import { useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState("Press button");
+  const [message, setMessage] = useState("Press button and speak");
 
-  const testfun = () => {
-    const msg = new SpeechSynthesisUtterance("Hello, this is a test message.");
-    window.speechSynthesis.speak(msg);
-    setMessage("Voice test completed.");
+  const startListening = () => {
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      setMessage("Speech Recognition not supported");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-US";
+
+    recognition.onstart = () => {
+      setMessage("Listening...");
+    };
+
+    recognition.onresult = (event) => {
+      const text = event.results[0][0].transcript;
+
+      setMessage(text);
+    };
+
+    recognition.onerror = (event) => {
+      setMessage("Error: " + event.error);
+    };
+
+    recognition.start();
   };
-  const testRecognition = () => {
-  console.log("clicked");
-
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    alert("SpeechRecognition not supported");
-    return;
-  }
-
-  alert("SpeechRecognition found");
-
-  const recognition = new SpeechRecognition();
-
-  recognition.onstart = () => {
-    alert("Recognition started");
-  };
-
-  recognition.onerror = (event) => {
-    alert("Error: " + event.error);
-  };
-
-  recognition.start();
-};
 
   return (
-    <div>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
       <h1>Blind Assistant</h1>
 
-      <button onClick={testRecognition}>
-        Test Voice
+      <button onClick={startListening}>
+        Start Listening
       </button>
 
-      <p>{message}</p>
+      <h2>{message}</h2>
     </div>
   );
 }
