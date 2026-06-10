@@ -51,6 +51,10 @@ function App() {
   else if (text.includes("help")) {
     speak("Emergency help feature coming soon.");
   }
+  else if (text.startsWith("search")) {
+    const query = text.replace("search", "").trim();
+    window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
+  }
   else {
     speak(`You said ${text}`);
   }
