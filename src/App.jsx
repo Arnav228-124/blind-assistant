@@ -30,6 +30,31 @@ function App() {
     recognition.onerror = (event) => {
       setMessage("Error: " + event.error);
     };
+    recognition.onresult = (event) => {
+  const text = event.results[0][0].transcript.toLowerCase();
+
+  setMessage(text);
+
+  const speak = (message) => {
+    const utterance = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  if (text.includes("time")) {
+    const currentTime = new Date().toLocaleTimeString();
+
+    speak(`Current time is ${currentTime}`);
+  }
+  else if (text.includes("hello")) {
+    speak("Hello, how can I help you today?");
+  }
+  else if (text.includes("help")) {
+    speak("Emergency help feature coming soon.");
+  }
+  else {
+    speak(`You said ${text}`);
+  }
+};
 
     recognition.start();
   };
