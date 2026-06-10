@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import TexrtReader from "./component/TextReader";
 function App() {
   const [message, setMessage] = useState("Press button and speak");
 
@@ -72,6 +72,7 @@ function App() {
       </button>
 
       <h2>{message}</h2>
+      <TexrtReader />
     </div>
   );
 }
