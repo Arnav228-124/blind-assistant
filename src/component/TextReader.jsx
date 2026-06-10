@@ -28,12 +28,14 @@ function TextReader() {
   return (
     <div>
       <h2>Read Text From Image</h2>
-
+    <label classname="camera-button">
       <input
         type="file"
         accept="image/*"
+        capture="environment"           
         onChange={handleImage}
       />
+      </label>
 
       <p>{text}</p>
     </div>
